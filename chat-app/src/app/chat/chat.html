@@ -1,0 +1,37 @@
+@if (!userName) {
+<div class="join-container">
+    <div class="join-card">
+        <h2>Welcome to Group Chat</h2>
+        <p>Enter your name to join the discussion</p>
+        <input type="text" placeholder="Your name..." [(ngModel)]="nameInput" (keyup.enter)="joinChat()" />
+        <button (click)="joinChat()">Join</button>
+    </div>
+</div>
+} @else {
+<div class="chat-container">
+    <div class="chat-header">
+        <div class="header-info">
+            <h2>Group Discussion</h2>
+            <span class="status">{{ onlineCount() }} online</span>
+        </div>
+        <div class="avatar">{{ userName[0].toUpperCase() }}</div>
+    </div>
+
+    <div class="chat-messages">
+        @for (message of messages(); track message.id) {
+        <div class="message" [class.sent]="message.sent" [class.received]="!message.sent">
+            @if (!message.sent) {
+            <span class="sender-name">{{ message.senderName }}</span>
+            }
+            <p>{{ message.text }}</p>
+            <span class="timestamp">{{ message.time }}</span>
+        </div>
+        }
+    </div>
+
+    <div class="chat-input">
+        <input type="text" placeholder="Type a message..." [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" />
+        <button (click)="sendMessage()">Send</button>
+    </div>
+</div>
+}
